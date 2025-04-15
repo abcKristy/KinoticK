@@ -1,4 +1,4 @@
-package com.example.kinotick;
+package com.example.kinotick.moviebd;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.kinotick.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -213,6 +215,7 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
     public void deleteMovie(int id) {
         // Реализация удаления фильма
     }
+
 
 
 }

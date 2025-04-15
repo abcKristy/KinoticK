@@ -1,4 +1,4 @@
-package com.example.kinotick;
+package com.example.kinotick.moviebd;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

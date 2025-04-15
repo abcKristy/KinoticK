@@ -1,4 +1,4 @@
-package com.example.kinotick;
+package com.example.kinotick.moviebd;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.example.kinotick.R;
+
 import java.util.List;
 import java.util.Locale;
 

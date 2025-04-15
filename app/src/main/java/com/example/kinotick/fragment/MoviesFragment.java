@@ -1,8 +1,7 @@
-package com.example.kinotick;
+package com.example.kinotick.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Date;
+import com.example.kinotick.moviebd.Movie;
+import com.example.kinotick.moviebd.MovieAdapter;
+import com.example.kinotick.moviebd.MovieDatabaseHelper;
+import com.example.kinotick.R;
+
 import java.util.List;
 
 public class MoviesFragment extends Fragment {

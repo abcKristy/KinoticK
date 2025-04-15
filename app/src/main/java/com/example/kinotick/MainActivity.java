@@ -3,6 +3,10 @@ package com.example.kinotick;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+
+import com.example.kinotick.fragment.HomeFragment;
+import com.example.kinotick.fragment.MoviesFragment;
+import com.example.kinotick.fragment.TicketsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
