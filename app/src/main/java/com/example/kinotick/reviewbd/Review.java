@@ -3,11 +3,11 @@ package com.example.kinotick.reviewbd;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "reviews")  // Указываем, что это сущность Room
+@Entity(tableName = "reviews")
 public class Review {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String movieTitle;  // Храним название фильма (не ID)
+    private String movieTitle;
     private String author;
     private String text;
     private float rating;

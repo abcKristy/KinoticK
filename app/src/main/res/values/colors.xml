@@ -1,27 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Красные оттенки (мягкие и темные) -->
+    <!-- Основная красная гамма (8 цветов) -->
     <color name="red_soft">#FF6B6B</color>
+    <color name="red_dusty">#E56363</color>
+    <color name="red_rose">#D25A5A</color>
     <color name="red_dark">#CC4E4E</color>
     <color name="red_wine">#A83A3A</color>
+    <color name="red_brick">#953030</color>
+    <color name="red_rust">#832B2B</color>
+    <color name="red_blood">#6F2323</color>
 
-    <!-- Оранжевые оттенки -->
+    <!-- Оранжевая гамма (10 цветов) -->
+    <color name="orange_peach">#FFB347</color>
     <color name="orange_soft">#FFA07A</color>
+    <color name="orange_apricot">#FF8C5A</color>
+    <color name="orange_coral">#FF7F50</color>
     <color name="orange_dark">#E27D60</color>
+    <color name="orange_terracotta">#D9745B</color>
     <color name="orange_burnt">#C96A4A</color>
+    <color name="orange_pumpkin">#DF6E2C</color>
     <color name="orange_deep">#B35735</color>
+    <color name="orange_spice">#A04B28</color>
 
-    <!-- Желтые оттенки (приглушенные) -->
+    <!-- Желто-золотистая гамма (6 цветов) -->
     <color name="yellow_soft">#FFD166</color>
+    <color name="yellow_honey">#F4C430</color>
     <color name="yellow_mustard">#D4A017</color>
+    <color name="yellow_golden">#DAA520</color>
     <color name="yellow_dark">#B38B00</color>
+    <color name="yellow_ochre">#CC7722</color>
 
-    <!-- Бежевые/нейтральные оттенки -->
+    <!-- Бежево-нейтральная гамма (12 цветов) -->
     <color name="beige_light">#F5E6CA</color>
+    <color name="beige_cloud">#F0E0B0</color>
+    <color name="beige_sand">#E6D5B8</color>
+    <color name="beige_linen">#EDD9A3</color>
     <color name="beige_medium">#D8C8A8</color>
-    <color name="beige_dark">#B5A189</color>
+    <color name="beige_taupe">#C8B8A0</color>
     <color name="beige_warm">#9C8C6B</color>
+    <color name="beige_dark">#B5A189</color>
+    <color name="beige_camel">#C19A6B</color>
+    <color name="beige_mocha">#A78B65</color>
+    <color name="beige_umber">#6B4F3A</color>
+    <color name="beige_coffee">#5D432C</color>
 
-    <!-- Дополнительный контрастный цвет -->
-    <color name="accent_dark">#8B4513</color>  <!-- Темно-коричневый с оранжевым подтоном -->
+    <!-- Коричневая гамма (8 цветов) -->
+    <color name="brown_sienna">#A0522D</color>
+    <color name="brown_copper">#B87333</color>
+    <color name="brown_cinnamon">#D2691E</color>
+    <color name="brown_reddish">#8B4513</color>
+    <color name="brown_walnut">#5C4033</color>
+    <color name="brown_chocolate">#4B3621</color>
+    <color name="brown_espresso">#3E2723</color>
+    <color name="brown_black">#2A1A12</color>
+
+    <!-- Акцентные цвета (6 цветов) -->
+    <color name="accent_rust">#B7410E</color>
+    <color name="accent_terra">#E2725B</color>
+    <color name="accent_amber">#FFBF00</color>
+    <color name="accent_clay">#B66A50</color>
+    <color name="accent_adobe">#BD8260</color>
+    <color name="accent_ginger">#B06500</color>
+    <color name="accent_dark">#8B4513</color>
 </resources>
