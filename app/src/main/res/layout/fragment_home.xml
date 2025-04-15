@@ -9,18 +9,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="17dp">
 
-        <!-- Баннер со скидками (горизонтальный) -->
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Акции и скидки"
-            android:textSize="18sp"
-            android:textColor="@color/orange_deep"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="16dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="46dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_film" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Акции и скидки"
+                    android:textColor="@color/orange_deep"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/login_button"
+                style="@style/RoundedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="Войти"
+                android:textColor="@color/beige_light"
+                tools:ignore="TouchTargetSizeCheck" />
+        </RelativeLayout>
+
+        <!-- Баннер со скидками (горизонтальный) -->
+
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -51,6 +83,29 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/sale2" />
+
+                <!-- Баннер 3 -->
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/banner3" />
+
+                <!-- Баннер 4 -->
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/banner4" />
+
+                <!-- Баннер 5 -->
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/banner5" />
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -58,12 +113,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Последние отзывы"
-            android:textSize="18sp"
-            android:textColor="@color/orange_deep"
-            android:textStyle="bold"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Последние отзывы"
+            android:textColor="@color/orange_deep"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Сюда позже добавим RecyclerView с отзывами -->
         <ProgressBar
@@ -71,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
     </LinearLayout>
 </ScrollView>

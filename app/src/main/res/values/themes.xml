@@ -8,11 +8,16 @@
         <item name="colorSecondaryVariant">@color/yellow_mustard</item>
         <item name="colorOnSecondary">@color/accent_dark</item>
         <item name="android:windowBackground">@color/beige_light</item>
-
     </style>
 
     <style name="BottomNavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomNav</item>
+    </style>
+
+    <style name="RoundedButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="backgroundTint">@null</item>
+        <item name="cornerRadius">18dp</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.BottomNav" parent="">
