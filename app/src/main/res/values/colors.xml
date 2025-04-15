@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Красные оттенки (мягкие и темные) -->
+    <color name="red_soft">#FF6B6B</color>
+    <color name="red_dark">#CC4E4E</color>
+    <color name="red_wine">#A83A3A</color>
+
+    <!-- Оранжевые оттенки -->
+    <color name="orange_soft">#FFA07A</color>
+    <color name="orange_dark">#E27D60</color>
+    <color name="orange_burnt">#C96A4A</color>
+    <color name="orange_deep">#B35735</color>
+
+    <!-- Желтые оттенки (приглушенные) -->
+    <color name="yellow_soft">#FFD166</color>
+    <color name="yellow_mustard">#D4A017</color>
+    <color name="yellow_dark">#B38B00</color>
+
+    <!-- Бежевые/нейтральные оттенки -->
+    <color name="beige_light">#F5E6CA</color>
+    <color name="beige_medium">#D8C8A8</color>
+    <color name="beige_dark">#B5A189</color>
+    <color name="beige_warm">#9C8C6B</color>
+
+    <!-- Дополнительный контрастный цвет -->
+    <color name="accent_dark">#8B4513</color>  <!-- Темно-коричневый с оранжевым подтоном -->
+</resources>

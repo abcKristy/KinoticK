@@ -1,0 +1,31 @@
+<resources>
+    <!-- Общие строки приложения -->
+    <string name="app_name">KinoticK</string>
+    <string name="banner_desc">Специальные предложения кинотеатра</string>
+    <string name="new_releases">Новинки</string>
+    <string name="popular">Популярное</string>
+    <string name="fitback">Последние отзывы</string>
+    <string name="now_in_cinema">Сейчас в кино</string>
+    <!-- Нижнее меню -->
+    <string name="menu_home">Главное</string>
+    <string name="menu_movies">Фильмотека</string>
+    <string name="menu_tickets">Билеты</string>
+
+    <!-- Заголовки экранов -->
+    <string name="title_home">Главная страница</string>
+    <string name="title_movies">Фильмы в прокате</string>
+    <string name="title_tickets">Купить билет</string>
+    <string name="poster_desc">Постер фильма</string>
+    <!-- Сообщения -->
+    <string name="empty_list">Список пуст</string>
+    <string name="loading">Загрузка…</string>
+
+    <!-- Кнопки -->
+    <string name="btn_buy">Купить</string>
+    <string name="btn_details">Подробнее</string>
+    <string name="btn_search">Поиск</string>
+
+    <!-- Ошибки -->
+    <string name="error_network">Нет подключения к интернету</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+</resources>
