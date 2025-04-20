@@ -1,96 +1,148 @@
 package com.example.kinotick.fragment;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.kinotick.R;
 import com.example.kinotick.seats.CinemaDatabaseHelper;
-import com.example.kinotick.seats.MovieTicket;
-
-import java.util.ArrayList;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
 public class TicketsFragment extends Fragment {
     private CinemaDatabaseHelper dbHelper;
-    private TextView ticketsTextView;
-    private static final String PREFS_NAME = "CinemaPrefs";
-    private static final String PREF_DB_INITIALIZED = "db_initialized";
+    private AutoCompleteTextView moviesDropdown;
+    private AutoCompleteTextView datesDropdown;
+    private AutoCompleteTextView timesDropdown;
+    private TextInputEditText fioEditText;
+    private TextInputEditText notesEditText;
+    private MaterialButton continueButton;
+    private View dateLayout;
+    private View timeLayout;
+    private String selectedMovie;
+    private String selectedDate;
+    private String selectedTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tickets, container, false);
 
-        dbHelper = new CinemaDatabaseHelper(getActivity());
-        ticketsTextView = view.findViewById(R.id.ticketsTextView);
+        // Инициализация базы данных
+        dbHelper = new CinemaDatabaseHelper(getContext());
 
-        // Проверяем, была ли уже инициализирована БД
-        boolean dbInitialized = getActivity()
-                .getSharedPreferences(PREFS_NAME, 0)
-                .getBoolean(PREF_DB_INITIALIZED, false);
+        // Находим элементы UI
+        moviesDropdown = view.findViewById(R.id.moviesDropdown);
+        datesDropdown = view.findViewById(R.id.datesDropdown);
+        timesDropdown = view.findViewById(R.id.timesDropdown);
+        fioEditText = view.findViewById(R.id.fioEditText);
+        notesEditText = view.findViewById(R.id.notesEditText);
+        continueButton = view.findViewById(R.id.continueButton);
+        dateLayout = view.findViewById(R.id.dateLayout);
+        timeLayout = view.findViewById(R.id.timeLayout);
 
-        if (!dbInitialized) {
-            // Заполняем БД тестовыми данными только при первом запуске
-            dbHelper.populateDatabaseWithTestData();
-            getActivity()
-                    .getSharedPreferences(PREFS_NAME, 0)
-                    .edit()
-                    .putBoolean(PREF_DB_INITIALIZED, true)
-                    .apply();
-        }
+        // Заполняем выпадающий список фильмами
+        populateMoviesDropdown();
 
-        Button refreshButton = view.findViewById(R.id.refreshButton);
-        refreshButton.setOnClickListener(v -> refreshTicketsList());
+        // Обработчик выбора фильма
+        moviesDropdown.setOnItemClickListener((parent, view1, position, id) -> {
+            selectedMovie = (String) parent.getItemAtPosition(position);
+            populateDatesDropdown(selectedMovie);
+            dateLayout.setVisibility(View.VISIBLE);
+            timeLayout.setVisibility(View.GONE);
+            checkFormCompletion();
+        });
 
-        // Первоначальная загрузка данных
-        refreshTicketsList();
+        // Обработчик выбора даты
+        datesDropdown.setOnItemClickListener((parent, view1, position, id) -> {
+            selectedDate = (String) parent.getItemAtPosition(position);
+            populateTimesDropdown(selectedMovie, selectedDate);
+            timeLayout.setVisibility(View.VISIBLE);
+            checkFormCompletion();
+        });
+
+        // Обработчик выбора времени
+        timesDropdown.setOnItemClickListener((parent, view1, position, id) -> {
+            selectedTime = (String) parent.getItemAtPosition(position);
+            checkFormCompletion();
+        });
+
+        // Слушатель изменений текста для ФИО
+        fioEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkFormCompletion();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Обработчик нажатия кнопки
+        continueButton.setOnClickListener(v -> {
+            String fio = fioEditText.getText().toString().trim();
+            String notes = notesEditText.getText().toString().trim();
+
+            // Здесь можно перейти к следующему экрану или выполнить другие действия
+            Toast.makeText(getContext(),
+                    "Билет на фильм " + selectedMovie +
+                            "\nДата: " + selectedDate +
+                            "\nВремя: " + selectedTime +
+                            "\nФИО: " + fio +
+                            (notes.isEmpty() ? "" : "\nПожелания: " + notes),
+                    Toast.LENGTH_LONG).show();
+        });
 
         return view;
     }
 
-    private void refreshTicketsList() {
-        // Получаем все билеты из базы данных
-        List<MovieTicket> allTickets = dbHelper.getAllTicketsFromDatabase();
+    private void populateMoviesDropdown() {
+        List<String> movieNames = dbHelper.getAllMovieNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                movieNames);
+        moviesDropdown.setAdapter(adapter);
+    }
 
-        if (allTickets.isEmpty()) {
-            ticketsTextView.setText("В базе данных нет билетов");
-            return;
-        }
+    private void populateDatesDropdown(String movieName) {
+        List<String> dates = dbHelper.getDatesForMovie(movieName);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                dates);
+        datesDropdown.setAdapter(adapter);
+        datesDropdown.setText("", false);
+    }
 
-        // Форматируем вывод
-        StringBuilder sb = new StringBuilder();
-        String currentMovie = "";
-        String currentDate = "";
-        String currentTime = "";
+    private void populateTimesDropdown(String movieName, String date) {
+        List<String> times = dbHelper.getTimesForMovieAndDate(movieName, date);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                times);
+        timesDropdown.setAdapter(adapter);
+        timesDropdown.setText("", false);
+    }
 
-        for (MovieTicket ticket : allTickets) {
-            // Группируем по фильму, дате и времени
-            if (!ticket.getMovieName().equals(currentMovie) ||
-                    !ticket.getDate().equals(currentDate) ||
-                    !ticket.getTime().equals(currentTime)) {
+    private void checkFormCompletion() {
+        boolean isFioFilled = !fioEditText.getText().toString().trim().isEmpty();
+        boolean isMovieSelected = selectedMovie != null && !selectedMovie.isEmpty();
+        boolean isDateSelected = selectedDate != null && !selectedDate.isEmpty();
+        boolean isTimeSelected = selectedTime != null && !selectedTime.isEmpty();
 
-                currentMovie = ticket.getMovieName();
-                currentDate = ticket.getDate();
-                currentTime = ticket.getTime();
-
-                sb.append("\n\n=== ").append(currentMovie)
-                        .append(" (").append(currentDate).append(", ").append(currentTime).append(") ===\n");
-            }
-
-            sb.append("Ряд ").append(ticket.getRow())
-                    .append(", место ").append(ticket.getSeat())
-                    .append(" - ").append(ticket.isSold() ? "ПРОДАНО" : "свободно")
-                    .append("\n");
-        }
-
-        ticketsTextView.setText(sb.toString());
+        continueButton.setEnabled(isFioFilled && isMovieSelected && isDateSelected && isTimeSelected);
     }
 
     @Override

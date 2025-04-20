@@ -16,6 +16,9 @@
         android:theme="@style/Base.Theme.KinoticK"
         tools:targetApi="31">
         <activity
+            android:name=".fragment.OrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

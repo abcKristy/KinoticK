@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CinemaDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "cinema.db";
@@ -201,11 +203,11 @@ public class CinemaDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return tickets;
     }
+    // Новый метод для получения всех уникальных названий фильмов
     public List<String> getAllMovieNames() {
-        List<String> movieNames = new ArrayList<>();
+        Set<String> movieNamesSet = new HashSet<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Запрос на получение уникальных названий фильмов
         Cursor cursor = db.query(true, TABLE_TICKETS,
                 new String[]{COLUMN_MOVIE_NAME},
                 null, null,
@@ -213,11 +215,53 @@ public class CinemaDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                movieNames.add(cursor.getString(0));
+                movieNamesSet.add(cursor.getString(0));
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
-        return movieNames;
+
+        return new ArrayList<>(movieNamesSet);
+    }
+    public List<String> getDatesForMovie(String movieName) {
+        Set<String> datesSet = new HashSet<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(true, TABLE_TICKETS,
+                new String[]{COLUMN_DATE},
+                COLUMN_MOVIE_NAME + " = ?",
+                new String[]{movieName},
+                COLUMN_DATE, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                datesSet.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return new ArrayList<>(datesSet);
+    }
+    // Метод для получения времени сеансов для конкретного фильма и даты
+    public List<String> getTimesForMovieAndDate(String movieName, String date) {
+        Set<String> timesSet = new HashSet<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(true, TABLE_TICKETS,
+                new String[]{COLUMN_TIME},
+                COLUMN_MOVIE_NAME + " = ? AND " + COLUMN_DATE + " = ?",
+                new String[]{movieName, date},
+                COLUMN_TIME, null, COLUMN_TIME + " ASC", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                timesSet.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return new ArrayList<>(timesSet);
     }
 }
