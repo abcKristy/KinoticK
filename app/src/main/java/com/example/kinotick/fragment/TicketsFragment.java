@@ -1,5 +1,6 @@
 package com.example.kinotick.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -94,14 +95,18 @@ public class TicketsFragment extends Fragment {
             String fio = fioEditText.getText().toString().trim();
             String notes = notesEditText.getText().toString().trim();
 
-            // Здесь можно перейти к следующему экрану или выполнить другие действия
-            Toast.makeText(getContext(),
-                    "Билет на фильм " + selectedMovie +
-                            "\nДата: " + selectedDate +
-                            "\nВремя: " + selectedTime +
-                            "\nФИО: " + fio +
-                            (notes.isEmpty() ? "" : "\nПожелания: " + notes),
-                    Toast.LENGTH_LONG).show();
+            // Создаем Intent для перехода на OrderActivity
+            Intent intent = new Intent(getActivity(), OrderActivity.class);
+
+            // Передаем данные
+            intent.putExtra("movieName", selectedMovie);
+            intent.putExtra("date", selectedDate);
+            intent.putExtra("time", selectedTime);
+            intent.putExtra("fio", fio);
+            intent.putExtra("notes", notes);
+
+            // Запускаем активность
+            startActivity(intent);
         });
 
         return view;

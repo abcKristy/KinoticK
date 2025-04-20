@@ -1,12 +1,10 @@
 package com.example.kinotick.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.kinotick.R;
 
@@ -15,12 +13,34 @@ public class OrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_order);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        // Получаем данные из Intent
+        Intent intent = getIntent();
+        String movieName = intent.getStringExtra("movieName");
+        String date = intent.getStringExtra("date");
+        String time = intent.getStringExtra("time");
+        String fio = intent.getStringExtra("fio");
+        String notes = intent.getStringExtra("notes");
+
+        // Находим View элементы
+        TextView movieTextView = findViewById(R.id.movieTextView);
+        TextView dateTextView = findViewById(R.id.dateTextView);
+        TextView timeTextView = findViewById(R.id.timeTextView);
+        TextView fioTextView = findViewById(R.id.fioTextView);
+        TextView notesTextView = findViewById(R.id.notesTextView);
+
+        // Устанавливаем значения
+        movieTextView.setText(movieName);
+        dateTextView.setText(date);
+        timeTextView.setText(time);
+        fioTextView.setText(fio);
+
+        if (notes != null && !notes.isEmpty()) {
+            notesTextView.setText(notes);
+        } else {
+            notesTextView.setVisibility(View.GONE);
+            findViewById(R.id.notesLabel).setVisibility(View.GONE);
+        }
     }
 }
