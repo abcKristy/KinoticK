@@ -138,34 +138,6 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
         return index != -1 ? cursor.getLong(index) : -1;
     }
 
-    public List<Movie> searchMovies(String query) {
-        List<Movie> movies = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selection = COLUMN_TITLE + " LIKE ? OR " + COLUMN_DESCRIPTION + " LIKE ?";
-        String[] selectionArgs = new String[]{"%" + query + "%", "%" + query + "%"};
-
-        Cursor cursor = null;
-        try {
-            cursor = db.query(TABLE_MOVIES, null, selection, selectionArgs,
-                    null, null, COLUMN_TITLE + " ASC");
-
-            // Обработка результатов как в getAllMovies()
-
-        } finally {
-            if (cursor != null) cursor.close();
-            db.close();
-        }
-        return movies;
-    }
-
-    public void addTestMoviesIfEmpty() {
-        if (getAllMovies().isEmpty()) {
-            addMovie(new Movie("Тестовый фильм 1", "Описание 1", "Боевик", 120, 7.5, "url1", new Date()));
-            addMovie(new Movie("Тестовый фильм 2", "Описание 2", "Комедия", 90, 8.1, "url2", new Date()));
-        }
-    }
-
     public void initializeFromJson(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_MOVIES); // Очищаем таблицу
@@ -200,22 +172,4 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
             Log.e("MovieDB", "Error initializing from JSON", e);
         }
     }
-
-    // Дополнительные методы
-    public Movie getMovieById(int id) {
-        // Реализация аналогична getAllMovies, но с условием WHERE
-        return null;
-    }
-
-    public int updateMovie(Movie movie) {
-        // Реализация обновления фильма
-        return 0;
-    }
-
-    public void deleteMovie(int id) {
-        // Реализация удаления фильма
-    }
-
-
-
 }

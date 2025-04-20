@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +20,19 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kinotick.R;
 import com.example.kinotick.reviewbd.Review;
 import com.example.kinotick.reviewbd.ReviewAdapter;
 import com.example.kinotick.reviewbd.ReviewDatabaseHelper;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 public class HomeFragment extends Fragment {
@@ -61,7 +64,67 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadReviews();
+
+        // Находим кнопку добавления отзыва
+        Button addReviewButton = view.findViewById(R.id.btn_add_review);
+
+        // Реализуем обработчик нажатия
+        addReviewButton.setOnClickListener(v -> {
+            // Создаем и показываем диалог добавления отзыва
+            showAddReviewDialog();
+        });
+    }
+
+    private void showAddReviewDialog() {
+        // 1. Создаем кастомный диалог
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_review, null);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        // 2. Находим элементы диалога
+        EditText etMovieTitle = dialogView.findViewById(R.id.etMovieTitle);
+        EditText etAuthor = dialogView.findViewById(R.id.etAuthor);
+        EditText etReviewText = dialogView.findViewById(R.id.etReviewText);
+        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+        Button btnSubmit = dialogView.findViewById(R.id.btnSubmit);
+
+        // 3. Обработчик кнопки "Добавить отзыв" внутри диалога
+        btnSubmit.setOnClickListener(v -> {
+            // Получаем данные из полей
+            String movieTitle = etMovieTitle.getText().toString().trim();
+            String author = etAuthor.getText().toString().trim();
+            String reviewText = etReviewText.getText().toString().trim();
+            float rating = ratingBar.getRating();
+
+            // Валидация ввода
+            if (movieTitle.isEmpty() || author.isEmpty() || reviewText.isEmpty()) {
+                Toast.makeText(requireContext(), "Заполните все поля", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Создаем новый отзыв
+            Review newReview = new Review();
+            newReview.setMovieTitle(movieTitle);
+            newReview.setAuthor(author);
+            newReview.setText(reviewText);
+            newReview.setRating(rating);
+            newReview.setDate(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+
+            // Вот этот вызов должен работать:
+            ReviewDatabaseHelper.getInstance(requireContext())
+                    .addReviewToJson(requireContext(), newReview);
+            // Обновляем интерфейс
+            requireActivity().runOnUiThread(() -> {
+                loadReviews();
+                Toast.makeText(requireContext(), "Отзыв добавлен!", Toast.LENGTH_SHORT).show();
+            });
+
+            dialog.dismiss();
+        });
+
+        // 4. Показываем диалог
+        dialog.show();
     }
 
     private void setupReviewsRecycler() {
