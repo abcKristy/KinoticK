@@ -48,6 +48,12 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(),
                 R.anim.fade_in);
         holder.itemView.startAnimation(animation);
+
+        if (position == getItemCount() - 1) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
+            params.bottomMargin = 32; // в dp
+            holder.itemView.setLayoutParams(params);
+        }
     }
 
     @Override

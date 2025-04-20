@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation libs.paging.runtime
     implementation libs.json
 
     // Для загрузки изображений

@@ -30,6 +30,8 @@
     <color name="yellow_dark">#B38B00</color>
     <color name="yellow_ochre">#CC7722</color>
 
+   <color name="yellow_linen">#FFF9E6</color>   <!-- Как натуральный лён -->
+
     <!-- Бежево-нейтральная гамма (12 цветов) -->
     <color name="beige_light">#F5E6CA</color>
     <color name="beige_cloud">#F0E0B0</color>

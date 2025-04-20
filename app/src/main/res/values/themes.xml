@@ -26,5 +26,21 @@
         <item name="cornerSizeTopRight">8dp</item>
     </style>
 
+    <style name="PredictionDialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">@color/brown_reddish</item>
+        <item name="colorAccent">@color/beige_coffee</item>
+        <item name="android:textColorPrimary">@color/beige_coffee</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+    </style>
+
+    <style name="TransparentDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
     <style name="Theme.KinoticK" parent="Base.Theme.KinoticK" />
 </resources>
