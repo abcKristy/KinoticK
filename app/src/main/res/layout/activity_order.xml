@@ -14,81 +14,190 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Детали заказа"
+            android:textColor="@color/orange_deep"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="24dp"/>
 
-        <!-- Информация о фильме -->
-        <TextView
+        <!-- Первая строка: Фильм -> ФИО -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Фильм:"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/movieTextView"
+            <!-- Фильм -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Фильм:"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/movieTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- ФИО -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ФИО:"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/fioTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Вторая строка: Дата -> Время -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <!-- Дата -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Дата:"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/dateTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+
+            <!-- Время -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Время:"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Третья строка: Пожелания (если есть) -->
+        <LinearLayout
+            android:id="@+id/notesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Дополнительные пожелания:"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/notesTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- Кинозал -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Выберите места:"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Дата -->
+        <!-- Экран кинотеатра -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Дата:"
+            android:text="ЭКРАН"
+            android:textAlignment="center"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/dateTextView"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="4dp"
+            android:background="@android:color/darker_gray"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Время -->
-        <TextView
+        <!-- Контейнер для кинозала с фиксированным размером -->
+        <LinearLayout
+            android:id="@+id/cinemaHallLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Время:"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
+            android:orientation="vertical"
+            android:background="#F5F5F5"
+            android:padding="8dp"/>
 
         <TextView
-            android:id="@+id/timeTextView"
+            android:id="@+id/selectedSeatsInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Выбранные места: нет"
+            android:textSize="16sp"
             android:layout_marginBottom="16dp"/>
 
-        <!-- ФИО -->
+        <!-- Блок с сообщениями об ошибках -->
         <TextView
+            android:id="@+id/errorMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ФИО:"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:id="@+id/fioTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            android:textSize="14sp"
+            android:visibility="gone"
             android:layout_marginBottom="16dp"/>
 
-        <!-- Пожелания (показывается только если есть) -->
-        <TextView
-            android:id="@+id/notesLabel"
+        <!-- Кнопка подтверждения -->
+        <Button
+            android:id="@+id/confirmButton"
+            style="@style/RoundedButton"
+            android:textColor="@color/beige_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Дополнительные пожелания:"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView
-            android:id="@+id/notesTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
-
+            android:text="Подтвердить выбор"
+            android:textAllCaps="false"
+            android:enabled="false"/>
     </LinearLayout>
 </ScrollView>

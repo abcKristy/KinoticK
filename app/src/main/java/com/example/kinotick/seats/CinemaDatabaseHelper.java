@@ -75,8 +75,11 @@ public class CinemaDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_IS_SOLD, 1);
 
         int rowsAffected = db.update(TABLE_TICKETS, values,
-                COLUMN_MOVIE_NAME + " = ? AND " + COLUMN_DATE + " = ? AND " + COLUMN_TIME + " = ? AND " +
-                        COLUMN_ROW + " = ? AND " + COLUMN_SEAT + " = ?",
+                COLUMN_MOVIE_NAME + " = ? AND " +
+                        COLUMN_DATE + " = ? AND " +
+                        COLUMN_TIME + " = ? AND " +
+                        COLUMN_ROW + " = ? AND " +
+                        COLUMN_SEAT + " = ?",
                 new String[]{movieName, date, time, String.valueOf(row), String.valueOf(seat)});
 
         db.close();
@@ -151,7 +154,7 @@ public class CinemaDatabaseHelper extends SQLiteOpenHelper {
                 for (String date : dates) {
                     for (String time : times) {
                         for (int row = 1; row <= 10; row++) {
-                            for (int seat = 1; seat <= 20; seat++) {
+                            for (int seat = 1; seat <= 17; seat++) {
                                 // Случайным образом помечаем некоторые места как проданные
                                 boolean isSold = Math.random() > 0.7;
 
@@ -264,4 +267,5 @@ public class CinemaDatabaseHelper extends SQLiteOpenHelper {
 
         return new ArrayList<>(timesSet);
     }
+
 }
