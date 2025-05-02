@@ -1,6 +1,7 @@
 package com.example.kinotick.fragment;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,7 @@ import java.util.Random;
 public class HomeFragment extends Fragment {
     private RecyclerView reviewsRecycler;
     private ReviewAdapter reviewAdapter;
+    private SharedPreferences sharedPref;
     private Button findMovieButton;
 
     @Override
@@ -67,12 +70,43 @@ public class HomeFragment extends Fragment {
 
         // Находим кнопку добавления отзыва
         Button addReviewButton = view.findViewById(R.id.btn_add_review);
+        sharedPref = requireActivity().getSharedPreferences("user_prefs", 0);
 
+        Button loginButton = view.findViewById(R.id.login_button);
+        loginButton.setOnClickListener(v -> checkAuthAndOpenLogin());
         // Реализуем обработчик нажатия
         addReviewButton.setOnClickListener(v -> {
             // Создаем и показываем диалог добавления отзыва
             showAddReviewDialog();
         });
+    }
+    private void checkAuthAndOpenLogin() {
+        boolean isLoggedIn = sharedPref.getBoolean("is_logged_in", false);
+
+        if (isLoggedIn) {
+            // Если пользователь уже авторизован, показываем его профиль
+            String userName = sharedPref.getString("user_name", "");
+            openProfileFragment(userName);
+        } else {
+            // Если не авторизован, показываем экран входа
+            openLoginFragment();
+        }
+    }
+
+    private void openLoginFragment() {
+        LoginFragment loginFragment = new LoginFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, loginFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void openProfileFragment(String userName) {
+        ProfileFragment profileFragment = ProfileFragment.newInstance(userName);
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, profileFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void showAddReviewDialog() {
