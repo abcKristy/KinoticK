@@ -47,7 +47,7 @@
                 android:layout_height="36dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="Войти"
+                android:text="Профиль"
                 android:textColor="@color/beige_light"
                 tools:ignore="TouchTargetSizeCheck" />
         </RelativeLayout>

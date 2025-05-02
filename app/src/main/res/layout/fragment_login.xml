@@ -1,22 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
 
-    <EditText
-        android:id="@+id/name_input"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите ваше имя"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Войти"/>
+        <!-- Личные данные -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Фамилия*"
+            android:textStyle="bold"/>
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/last_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Имя*"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/first_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Отчество"
+            android:layout_marginTop="16dp"/>
+
+        <EditText
+            android:id="@+id/middle_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+
+        <!-- Жанры -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Любимые жанры:"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:stretchColumns="*">
+
+            <TableRow>
+                <!-- Колонка 1 -->
+                <CheckBox
+                    android:id="@+id/genre_action"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Боевик"/>
+
+                <!-- Колонка 2 -->
+                <CheckBox
+                    android:id="@+id/genre_comedy"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Комедия"/>
+
+                <!-- Колонка 3 -->
+                <CheckBox
+                    android:id="@+id/genre_drama"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Драма"/>
+            </TableRow>
+
+            <TableRow>
+                <CheckBox
+                    android:id="@+id/genre_fantasy"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Фэнтези"/>
+
+                <CheckBox
+                    android:id="@+id/genre_horror"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Ужасы"/>
+
+                <CheckBox
+                    android:id="@+id/genre_romance"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Мелодрама"/>
+            </TableRow>
+
+            <TableRow>
+                <CheckBox
+                    android:id="@+id/genre_scifi"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Фантастика"/>
+
+                <CheckBox
+                    android:id="@+id/genre_thriller"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Триллер"/>
+
+                <CheckBox
+                    android:id="@+id/genre_other"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Другое"/>
+            </TableRow>
+        </TableLayout>
+
+        <!-- Поле для другого жанра -->
+        <LinearLayout
+            android:id="@+id/other_genre_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Укажите свой вариант:"/>
+
+            <EditText
+                android:id="@+id/other_genre_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
+        </LinearLayout>
+
+        <!-- Кнопка сохранения -->
+        <Button
+            android:id="@+id/save_button"
+            style="@style/RoundedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Сохранить профиль"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+</ScrollView>
