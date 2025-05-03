@@ -63,10 +63,19 @@ public class ProfileFragment extends Fragment {
             e.printStackTrace();
         }
 
+
         genresText.setText("Любимые жанры: " + String.join(", ", genresList));
 
         editButton.setOnClickListener(v -> openEditProfile());
         logoutButton.setOnClickListener(v -> logout());
+        TextView birthDateText = view.findViewById(R.id.birth_date_text);
+        String birthDate = sharedPref.getString("birth_date", "");
+        if (!birthDate.isEmpty()) {
+            birthDateText.setText("Дата рождения: " + birthDate);
+            birthDateText.setVisibility(View.VISIBLE);
+        } else {
+            birthDateText.setVisibility(View.GONE);
+        }
     }
 
     private String getGenreDisplayName(String genreKey) {

@@ -1,5 +1,6 @@
 package com.example.kinotick.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
@@ -18,17 +18,22 @@ import com.example.kinotick.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class LoginFragment extends Fragment {
 
-    private EditText firstNameInput, lastNameInput, middleNameInput, otherGenreInput;
+    private EditText firstNameInput, lastNameInput, middleNameInput, otherGenreInput, birthDateInput;
     private CheckBox actionCheck, comedyCheck, dramaCheck, fantasyCheck,
             horrorCheck, romanceCheck, scifiCheck, thrillerCheck, otherCheck;
     private LinearLayout otherGenreContainer;
     private SharedPreferences sharedPref;
-
+    private Calendar birthDateCalendar = Calendar.getInstance();
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +64,12 @@ public class LoginFragment extends Fragment {
         thrillerCheck = view.findViewById(R.id.genre_thriller);
         otherCheck = view.findViewById(R.id.genre_other);
 
+        birthDateInput = view.findViewById(R.id.birth_date_input);
+
+        // Обработчик выбора даты
+        View.OnClickListener dateClickListener = v -> showDatePickerDialog();
+        birthDateInput.setOnClickListener(dateClickListener);
+
         // Обработчик для чекбокса "Другое"
         otherCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
             otherGenreContainer.setVisibility(isChecked ? View.VISIBLE : View.GONE);
@@ -72,12 +83,41 @@ public class LoginFragment extends Fragment {
 
         saveButton.setOnClickListener(v -> saveProfile());
     }
+    private void showDatePickerDialog() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    birthDateCalendar.set(Calendar.YEAR, year);
+                    birthDateCalendar.set(Calendar.MONTH, month);
+                    birthDateCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateBirthDateInput();
+                },
+                birthDateCalendar.get(Calendar.YEAR),
+                birthDateCalendar.get(Calendar.MONTH),
+                birthDateCalendar.get(Calendar.DAY_OF_MONTH)
+        );
 
+        // Установка максимальной даты (сегодня)
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
+    }
+    private void updateBirthDateInput() {
+        birthDateInput.setText(dateFormatter.format(birthDateCalendar.getTime()));
+    }
     private void loadProfileData() {
         if (sharedPref.getBoolean("is_logged_in", false)) {
             firstNameInput.setText(sharedPref.getString("first_name", ""));
             lastNameInput.setText(sharedPref.getString("last_name", ""));
             middleNameInput.setText(sharedPref.getString("middle_name", ""));
+            String birthDate = sharedPref.getString("birth_date", "");
+            if (!birthDate.isEmpty()) {
+                try {
+                    birthDateCalendar.setTime(dateFormatter.parse(birthDate));
+                    birthDateInput.setText(birthDate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
             try {
                 JSONArray genresArray = new JSONArray(sharedPref.getString("fav_genres", "[]"));
@@ -116,6 +156,10 @@ public class LoginFragment extends Fragment {
             // Показываем ошибку, если обязательные поля не заполнены
             return;
         }
+        if (birthDateInput.getText().toString().isEmpty()) {
+            birthDateInput.setError("Укажите дату рождения");
+            return;
+        }
 
         // Собираем выбранные жанры
         List<String> selectedGenres = new ArrayList<>();
@@ -141,6 +185,7 @@ public class LoginFragment extends Fragment {
         editor.putBoolean("is_logged_in", true);
         editor.putString("first_name", firstName);
         editor.putString("last_name", lastName);
+        editor.putString("birth_date", dateFormatter.format(birthDateCalendar.getTime()));
         if (!middleName.isEmpty()) editor.putString("middle_name", middleName);
         editor.putString("fav_genres", new JSONArray(selectedGenres).toString());
         editor.apply();

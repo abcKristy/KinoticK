@@ -12,6 +12,13 @@
         android:textSize="24sp"
         android:textStyle="bold"/>
 
+    <!-- Добавляем после имени и перед жанрами -->
+    <TextView
+        android:id="@+id/birth_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
+
     <TextView
         android:id="@+id/genres_text"
         android:layout_width="wrap_content"
