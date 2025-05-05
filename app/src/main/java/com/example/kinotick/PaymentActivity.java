@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.kinotick.fragment.ProfileFragment;
 import com.example.kinotick.seats.CinemaDatabaseHelper;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    private ArrayList<String> selectedSeats;
-    private String selectedMovie;
-    private String selectedDate;
-    private String selectedTime;
+    private static ArrayList<String> selectedSeats;
+    private static String selectedMovie;
+    private static String selectedDate;
+    private static String selectedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +95,19 @@ public class PaymentActivity extends AppCompatActivity {
             // Обновляем статус мест в БД
             updateSeatsStatus();
 
+            addTicket(movie, dateTime, seatsToString(seats),fio);
+
             // Возвращаемся на главный экран
             returnToMainActivity();
         });
+    }
+    public static String seatsToString(List<String> seats) {
+        return String.join(", ", seats);
+    }
+
+    public static void addTicket(String movieName, String dateTime, String seat, String userFullName) {
+        Ticket ticket = new Ticket(movieName,dateTime, seat, userFullName);
+        ProfileFragment.pushToProfile(ticket);
     }
 
     private void updateSeatsStatus() {

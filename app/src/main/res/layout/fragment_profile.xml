@@ -129,5 +129,20 @@
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"/>
         </LinearLayout>
+        <!-- Добавить перед кнопками -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Мои билеты"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tickets_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"/>
     </LinearLayout>
 </ScrollView>

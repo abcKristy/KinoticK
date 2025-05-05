@@ -11,8 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kinotick.PaymentActivity;
 import com.example.kinotick.R;
+import com.example.kinotick.Ticket;
+import com.example.kinotick.TicketsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,8 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
+    private static RecyclerView ticketsRecyclerView;
+    private static TicketsAdapter ticketsAdapter;
+    private static List<Ticket> ticketList = new ArrayList<>();
 
     private SharedPreferences sharedPref;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +74,6 @@ public class ProfileFragment extends Fragment {
             e.printStackTrace();
         }
 
-
         genresText.setText("Любимые жанры: " + String.join(", ", genresList));
 
         editButton.setOnClickListener(v -> openEditProfile());
@@ -85,8 +94,21 @@ public class ProfileFragment extends Fragment {
                 requireContext().getPackageName()
         );
         avatarImage.setImageResource(resId);
+
+        // Инициализация RecyclerView
+        ticketsRecyclerView = view.findViewById(R.id.tickets_recycler);
+        ticketsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ticketsAdapter = new TicketsAdapter(ticketList);
+        ticketsRecyclerView.setAdapter(ticketsAdapter);
     }
 
+
+    // Функция для добавления нового билета
+    public static void pushToProfile(Ticket ticket) {
+        ticketList.add(0, ticket); // Добавляем в начало списка
+        ticketsAdapter.notifyItemInserted(0);
+        ticketsRecyclerView.smoothScrollToPosition(0);
+    }
     private String getGenreDisplayName(String genreKey) {
         if (genreKey.startsWith("other:")) {
             return genreKey.substring(6);
