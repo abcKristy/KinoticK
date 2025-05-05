@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class LoginFragment extends Fragment {
-
+    private int selectedAvatarId = 1; // По умолчанию выбран первый аватар
     private EditText firstNameInput, lastNameInput, middleNameInput, otherGenreInput, birthDateInput;
     private CheckBox actionCheck, comedyCheck, dramaCheck, fantasyCheck,
             horrorCheck, romanceCheck, scifiCheck, thrillerCheck, otherCheck;
@@ -82,6 +83,7 @@ public class LoginFragment extends Fragment {
         loadProfileData();
 
         saveButton.setOnClickListener(v -> saveProfile());
+        setupAvatarSelection();
     }
     private void showDatePickerDialog() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -110,6 +112,8 @@ public class LoginFragment extends Fragment {
             lastNameInput.setText(sharedPref.getString("last_name", ""));
             middleNameInput.setText(sharedPref.getString("middle_name", ""));
             String birthDate = sharedPref.getString("birth_date", "");
+            selectedAvatarId = sharedPref.getInt("avatar_id", 1);
+            updateAvatarSelection();
             if (!birthDate.isEmpty()) {
                 try {
                     birthDateCalendar.setTime(dateFormatter.parse(birthDate));
@@ -144,6 +148,53 @@ public class LoginFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void setupAvatarSelection() {
+        LinearLayout avatarContainer = getView().findViewById(R.id.avatar_container);
+        avatarContainer.removeAllViews();
+
+        for (int i = 1; i <= 5; i++) {
+            View avatarView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.item_avatar, avatarContainer, false);
+
+            ImageView avatarImage = avatarView.findViewById(R.id.avatar_image);
+            View selectionIndicator = avatarView.findViewById(R.id.avatar_selection);
+
+            // Получаем ID ресурса по имени файла
+            int resId = getResources().getIdentifier(
+                    "ava" + i,
+                    "drawable",
+                    requireContext().getPackageName()
+            );
+
+            avatarImage.setImageResource(resId);
+            avatarImage.setTag(i);
+
+            if (i == selectedAvatarId) {
+                selectionIndicator.setVisibility(View.VISIBLE);
+            }
+
+            avatarImage.setOnClickListener(v -> {
+                selectedAvatarId = (int) v.getTag();
+                updateAvatarSelection();
+            });
+
+            avatarContainer.addView(avatarView);
+        }
+    }
+
+    private void updateAvatarSelection() {
+        LinearLayout avatarContainer = getView().findViewById(R.id.avatar_container);
+        for (int i = 0; i < avatarContainer.getChildCount(); i++) {
+            View avatarView = avatarContainer.getChildAt(i);
+            View selection = avatarView.findViewById(R.id.avatar_selection);
+            ImageView image = avatarView.findViewById(R.id.avatar_image);
+
+            selection.setVisibility(
+                    (int) image.getTag() == selectedAvatarId ? View.VISIBLE : View.INVISIBLE
+            );
         }
     }
 
@@ -188,6 +239,7 @@ public class LoginFragment extends Fragment {
         editor.putString("birth_date", dateFormatter.format(birthDateCalendar.getTime()));
         if (!middleName.isEmpty()) editor.putString("middle_name", middleName);
         editor.putString("fav_genres", new JSONArray(selectedGenres).toString());
+        editor.putInt("avatar_id", selectedAvatarId);
         editor.apply();
 
         // Возвращаемся назад

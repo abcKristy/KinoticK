@@ -72,33 +72,33 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/sale1" />
+                    android:src="@drawable/rac1" />
 
                 <ImageView
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/sale2" />
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/banner3" />
+                    android:src="@drawable/rac2" />
 
                 <ImageView
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/banner4" />
+                    android:src="@drawable/rac3" />
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/rac4" />
 
                 <ImageView
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/banner5" />
+                    android:src="@drawable/rac5" />
             </LinearLayout>
         </HorizontalScrollView>
 

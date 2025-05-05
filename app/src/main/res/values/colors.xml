@@ -64,4 +64,20 @@
     <color name="accent_adobe">#BD8260</color>
     <color name="accent_ginger">#B06500</color>
     <color name="accent_dark">#8B4513</color>
+
+    <!-- Темно-зеленые с древесными оттенками -->
+    <color name="forest_deep">#1E3B2A</color>       <!-- Глубокий лесной -->
+    <color name="pine_shadow">#2A4532</color>       <!-- Тень сосновой хвои -->
+    <color name="moss_trunk">#354A3A</color>        <!-- Мох на древесной коре -->
+    <color name="cedar_dusk">#415F43</color>        <!-- Сумеречный кедровый -->
+
+    <!-- Зелено-коричневые переходные оттенки -->
+    <color name="olive_bark">#556B4F</color>        <!-- Оливковая кора -->
+    <color name="sage_wood">#6A7A5B</color>         <!-- Древесный шалфей -->
+    <color name="lichen_oak">#7F8A67</color>        <!-- Лишайник на дубе -->
+
+    <!-- Коричневые с зеленым подтоном -->
+    <color name="forest_floor">#8F9975</color>      <!-- Лесная подстилка -->
+    <color name="root_earth">#9FA884</color>        <!-- Цвет корней в земле -->
+    <color name="dried_leaf">#AFB794</color>        <!-- Высохший лист -->
 </resources>

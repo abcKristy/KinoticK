@@ -1,53 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
-
-    <!-- Добавляем после имени и перед жанрами -->
-    <TextView
-        android:id="@+id/birth_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/genres_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textSize="16sp"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <Button
-            android:id="@+id/edit_button"
-            style="@style/RoundedButton"
-            android:layout_width="wrap_content"
+        <!-- Аватар с тенью -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="200dp"
+            app:cardElevation="50dp"
+            app:strokeColor="@color/lichen_oak"
+            app:strokeWidth="5dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatar_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ava1"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Имя -->
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Редактировать"
-            android:layout_marginEnd="16dp"/>
+            android:text="Иван Иванов"
+            android:textAlignment="center"
+            android:textColor="@color/orange_deep"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
 
-        <Button
-            android:id="@+id/logout_button"
-            style="@style/RoundedButton"
-            android:layout_width="wrap_content"
+        <!-- Основная информация -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Выйти"/>
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Дата рождения -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_calendar"/>
+
+                    <TextView
+                        android:id="@+id/birth_date_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12 мая 1990"
+                        android:textColor="@color/forest_deep"
+                        android:textSize="17sp"/>
+                </LinearLayout>
+
+                <!-- Жанры -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_genre"/>
+
+                    <TextView
+                        android:id="@+id/genres_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Боевик, Фантастика"
+                        android:textColor="@color/forest_deep"
+                        android:textSize="17sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Кнопки действий -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_button"
+                style="@style/RoundedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Редактировать"
+                app:icon="@drawable/ic_edit"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logout_button"
+                style="@style/RoundedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Выйти"
+                app:icon="@drawable/ic_logout"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"/>
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

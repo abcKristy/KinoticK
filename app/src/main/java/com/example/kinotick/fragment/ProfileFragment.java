@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -76,6 +77,14 @@ public class ProfileFragment extends Fragment {
         } else {
             birthDateText.setVisibility(View.GONE);
         }
+        ImageView avatarImage = view.findViewById(R.id.avatar_image);
+        int avatarId = sharedPref.getInt("avatar_id", 1);
+        int resId = getResources().getIdentifier(
+                "ava" + avatarId,
+                "drawable",
+                requireContext().getPackageName()
+        );
+        avatarImage.setImageResource(resId);
     }
 
     private String getGenreDisplayName(String genreKey) {

@@ -9,6 +9,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Выбор аватара -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Выберите аватар"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:id="@+id/avatar_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Аватары будут добавляться программно -->
+            </LinearLayout>
+        </HorizontalScrollView>
+
         <!-- Личные данные -->
         <TextView
             android:layout_width="wrap_content"
