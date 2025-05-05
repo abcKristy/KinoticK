@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.kinotick.fragment.ProfileFragment;
 import com.example.kinotick.seats.CinemaDatabaseHelper;
+import com.example.kinotick.tickets.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,8 +107,11 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public static void addTicket(String movieName, String dateTime, String seat, String userFullName) {
-        Ticket ticket = new Ticket(movieName,dateTime, seat, userFullName);
+        Ticket ticket = new Ticket(movieName, dateTime, seat, userFullName);
         ProfileFragment.pushToProfile(ticket);
+
+        // Дополнительно сохраняем в SharedPreferences
+        ProfileFragment.saveTicketsToStorage();
     }
 
     private void updateSeatsStatus() {

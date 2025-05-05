@@ -1,4 +1,4 @@
-package com.example.kinotick;
+package com.example.kinotick.tickets;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.kinotick.R;
 
 import java.util.List;
 

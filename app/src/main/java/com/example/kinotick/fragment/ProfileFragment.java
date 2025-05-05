@@ -14,10 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kinotick.PaymentActivity;
 import com.example.kinotick.R;
-import com.example.kinotick.Ticket;
-import com.example.kinotick.TicketsAdapter;
+import com.example.kinotick.tickets.Ticket;
+import com.example.kinotick.tickets.TicketsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +28,16 @@ public class ProfileFragment extends Fragment {
     private static TicketsAdapter ticketsAdapter;
     private static List<Ticket> ticketList = new ArrayList<>();
 
-    private SharedPreferences sharedPref;
+    private static final String TICKETS_KEY = "user_tickets";
+    private static SharedPreferences sharedPref;
 
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPref = requireActivity().getSharedPreferences("user_prefs", 0);
+        loadTicketsFromStorage();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,12 +107,41 @@ public class ProfileFragment extends Fragment {
         ticketsRecyclerView.setAdapter(ticketsAdapter);
     }
 
+    public static void saveTicketsToStorage() {
+        JSONArray ticketsArray = new JSONArray();
+        for (Ticket ticket : ticketList) {
+            ticketsArray.put(ticket.toJson());
+        }
 
+        sharedPref.edit()
+                .putString(TICKETS_KEY, ticketsArray.toString())
+                .apply();
+    }
+
+    private void loadTicketsFromStorage() {
+        String ticketsJson = sharedPref.getString(TICKETS_KEY, "[]");
+        try {
+            JSONArray ticketsArray = new JSONArray(ticketsJson);
+            ticketList.clear();
+
+            for (int i = 0; i < ticketsArray.length(); i++) {
+                Ticket ticket = Ticket.fromJson(ticketsArray.getString(i));
+                ticketList.add(ticket);
+            }
+
+            if (ticketsAdapter != null) {
+                ticketsAdapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     // Функция для добавления нового билета
     public static void pushToProfile(Ticket ticket) {
-        ticketList.add(0, ticket); // Добавляем в начало списка
+        ticketList.add(0, ticket);
         ticketsAdapter.notifyItemInserted(0);
         ticketsRecyclerView.smoothScrollToPosition(0);
+        saveTicketsToStorage(); // Сохраняем после добавления
     }
     private String getGenreDisplayName(String genreKey) {
         if (genreKey.startsWith("other:")) {
