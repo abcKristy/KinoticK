@@ -1,7 +1,9 @@
 package com.example.kinotick.moviebd;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Movie {
@@ -13,7 +15,8 @@ public class Movie {
     private double rating;
     private String posterUrl;
     private Date releaseDate;
-
+    private String status; // "now_showing" или "coming_soon"
+    private List<Date> showDates = new ArrayList<>(); // Инициализация по умолчанию
     public Movie() {}
 
     public Movie(String title, String description, String genre, int duration,
@@ -30,7 +33,13 @@ public class Movie {
     // Геттеры и сеттеры
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+    public String getStatus() {
+        return status != null ? status : "now_showing"; // Значение по умолчанию только при чтении
+    }
+    public void setStatus(String status) { this.status = status; }
 
+    public List<Date> getShowDates() { return showDates; }
+    public void setShowDates(List<Date> showDates) { this.showDates = showDates; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
@@ -57,4 +66,15 @@ public class Movie {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         return format.format(releaseDate);
     }
+    // Форматирование дат показа
+    public String getFormattedShowDates() {
+        if (showDates == null || showDates.isEmpty()) return "";
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        StringBuilder dates = new StringBuilder();
+        for (Date date : showDates) {
+            dates.append(format.format(date)).append(", ");
+        }
+        return dates.length() > 0 ? dates.substring(0, dates.length() - 2) : "";
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.kinotick.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,17 @@ public class MoviesFragment extends Fragment {
 
         // Загружаем фильмы
         List<Movie> movies = dbHelper.getAllMovies();
+
+        for (Movie movie : movies) {
+            Log.d("MoviesFragment", "Movie: " + movie.getTitle()
+                    + ", Dates: " + (movie.getShowDates() != null ? movie.getShowDates().size() : 0));
+        }
+        // Логируем количество загруженных фильмов
+        Log.d("MoviesFragment", "Movies loaded: " + movies.size());
+        for (Movie movie : movies) {
+            Log.d("MoviesFragment", movie.getTitle() + ", Status: " + movie.getStatus());
+        }
+
         adapter = new MovieAdapter(movies, getContext());
         recyclerView.setAdapter(adapter);
     }

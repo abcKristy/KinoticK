@@ -15,13 +15,15 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class MovieDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "movie_database.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Название таблицы и столбцов
     public static final String TABLE_MOVIES = "movies";
@@ -44,8 +46,9 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_DURATION + " INTEGER, " +
                     COLUMN_RATING + " REAL, " +
                     COLUMN_POSTER_URL + " TEXT, " +
-                    COLUMN_RELEASE_DATE + " INTEGER);";
-
+                    COLUMN_RELEASE_DATE + " INTEGER, " +
+                    "status TEXT, " +
+                    "show_dates TEXT);"; // Даты храним как JSON-массив
     public MovieDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -75,6 +78,21 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_POSTER_URL, movie.getPosterUrl());
         values.put(COLUMN_RELEASE_DATE, movie.getReleaseDate().getTime());
 
+        // Добавляем статус
+        values.put("status", movie.getStatus());
+
+        // Сериализуем даты показа в JSON
+        if (movie.getShowDates() != null && !movie.getShowDates().isEmpty()) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            JSONArray datesArray = new JSONArray();
+            for (Date date : movie.getShowDates()) {
+                datesArray.put(dateFormat.format(date));
+            }
+            values.put("show_dates", datesArray.toString());
+        } else {
+            values.put("show_dates", "[]"); // Пустой массив JSON
+        }
+
         long id = db.insert(TABLE_MOVIES, null, values);
         db.close();
         return id;
@@ -84,8 +102,8 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
     public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = null;
+
         try {
             cursor = db.query(TABLE_MOVIES, null, null, null, null, null, COLUMN_TITLE + " ASC");
 
@@ -100,18 +118,39 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
                     movie.setRating(getDoubleFromCursor(cursor, COLUMN_RATING));
                     movie.setPosterUrl(getStringFromCursor(cursor, COLUMN_POSTER_URL));
 
+                    // Чтение release_date
                     long dateMillis = getLongFromCursor(cursor, COLUMN_RELEASE_DATE);
                     if (dateMillis != -1) {
                         movie.setReleaseDate(new Date(dateMillis));
                     }
 
+                    // Чтение status
+                    movie.setStatus(getStringFromCursor(cursor, "status"));
+
+                    // Чтение show_dates
+                    String showDatesJson = getStringFromCursor(cursor, "show_dates");
+                    if (showDatesJson != null) {
+                        try {
+                            JSONArray datesArray = new JSONArray(showDatesJson);
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                            List<Date> showDates = new ArrayList<>();
+                            for (int i = 0; i < datesArray.length(); i++) {
+                                showDates.add(dateFormat.parse(datesArray.getString(i)));
+                            }
+                            movie.setShowDates(showDates);
+                        } catch (Exception e) {
+                            Log.e("MovieDB", "Error parsing show_dates", e);
+                        }
+                    }
+                    Log.d("MovieDB", "Loaded movie: " + movie.getTitle()
+                            + ", status=" + movie.getStatus()
+                            + ", dates=" + movie.getShowDates().size());
+
                     movies.add(movie);
                 } while (cursor.moveToNext());
             }
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+            if (cursor != null) cursor.close();
             db.close();
         }
         return movies;
@@ -144,11 +183,7 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
 
         try {
             InputStream is = context.getResources().openRawResource(R.raw.movies);
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            is.close();
-            String json = new String(buffer, "UTF-8");
-
+            String json = new Scanner(is).useDelimiter("\\A").next();
             JSONArray moviesArray = new JSONArray(json);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
@@ -162,14 +197,29 @@ public class MovieDatabaseHelper extends SQLiteOpenHelper {
                 movie.setDuration(movieObj.getInt("duration"));
                 movie.setRating(movieObj.getDouble("rating"));
                 movie.setPosterUrl(movieObj.getString("poster_url"));
-
+                if (movieObj.has("status")) {
+                    movie.setStatus(movieObj.getString("status"));
+                }
+                // Парсим release_date
                 Date releaseDate = dateFormat.parse(movieObj.getString("release_date"));
                 movie.setReleaseDate(releaseDate);
+
+                // Парсим status и show_dates (если есть)
+                if (movieObj.has("show_dates")) {
+                    JSONArray datesArray = movieObj.getJSONArray("show_dates");
+                    List<Date> showDates = new ArrayList<>();
+                    for (int j = 0; j < datesArray.length(); j++) {
+                        showDates.add(dateFormat.parse(datesArray.getString(j)));
+                    }
+                    movie.setShowDates(showDates);
+                }
 
                 addMovie(movie);
             }
         } catch (Exception e) {
             Log.e("MovieDB", "Error initializing from JSON", e);
+        } finally {
+            db.close();
         }
     }
 }
