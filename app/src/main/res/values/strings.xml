@@ -8,7 +8,7 @@
     <string name="now_in_cinema">Сейчас в кино</string>
     <!-- Нижнее меню -->
     <string name="menu_home">Главное</string>
-    <string name="menu_movies">Фильмотека</string>
+    <string name="menu_movies">Сейчас в кино</string>
     <string name="menu_tickets">Билеты</string>
 
     <!-- Заголовки экранов -->

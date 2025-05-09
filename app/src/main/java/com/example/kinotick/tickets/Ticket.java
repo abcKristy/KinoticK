@@ -1,5 +1,13 @@
 package com.example.kinotick.tickets;
 
+import android.graphics.Bitmap;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
@@ -31,14 +39,15 @@ public class Ticket implements Serializable {
         try {
             return new JSONObject()
                     .put("id", id)
-                    .put("movieName", movieName)
-                    .put("dateTime", dateTime)
+                    .put("movie", movieName)
+                    .put("date", dateTime)
                     .put("seat", seat)
-                    .put("userFullName", userFullName)
+                    .put("user", userFullName)
+                    .put("valid", true) // Флаг валидности билета
                     .toString();
         } catch (JSONException e) {
             e.printStackTrace();
-            return "{}"; // Возвращаем пустой JSON в случае ошибки
+            return "{}";
         }
     }
 
@@ -50,5 +59,17 @@ public class Ticket implements Serializable {
                 obj.getString("seat"),
                 obj.getString("userFullName")
         );
+    }
+    public Bitmap generateQRCode(int size) {
+        try {
+            String ticketData = toJson(); // Используем наш метод toJson()
+            MultiFormatWriter writer = new MultiFormatWriter();
+            BitMatrix matrix = writer.encode(ticketData, BarcodeFormat.QR_CODE, size, size);
+            BarcodeEncoder encoder = new BarcodeEncoder();
+            return encoder.createBitmap(matrix);
+        } catch (WriterException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

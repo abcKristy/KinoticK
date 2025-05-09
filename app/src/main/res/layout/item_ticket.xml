@@ -11,28 +11,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/movie_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+        <!-- Правая часть - QR-код -->
+        <ImageView
+            android:id="@+id/qr_code"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
 
-        <TextView
-            android:id="@+id/date_time"
-            android:layout_width="match_parent"
+        <!-- Левая часть - информация о билете -->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/forest_deep"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="18dp">
 
-        <TextView
-            android:id="@+id/seat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/forest_deep"/>
+            <TextView
+                android:id="@+id/movie_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/forest_deep"/>
+
+            <TextView
+                android:id="@+id/seat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/forest_deep"/>
+        </LinearLayout>
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -29,6 +29,9 @@ android {
 }
 
 dependencies {
+    implementation libs.core
+    implementation libs.zxing.android.embedded
+
     implementation libs.paging.runtime
     implementation libs.json
 

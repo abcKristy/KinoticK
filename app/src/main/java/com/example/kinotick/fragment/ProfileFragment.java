@@ -103,7 +103,7 @@ public class ProfileFragment extends Fragment {
         // Инициализация RecyclerView
         ticketsRecyclerView = view.findViewById(R.id.tickets_recycler);
         ticketsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ticketsAdapter = new TicketsAdapter(ticketList);
+        ticketsAdapter = new TicketsAdapter(requireContext(), ticketList);
         ticketsRecyclerView.setAdapter(ticketsAdapter);
     }
 
