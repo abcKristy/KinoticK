@@ -54,10 +54,10 @@ public class Ticket implements Serializable {
     public static Ticket fromJson(String json) throws JSONException {
         JSONObject obj = new JSONObject(json);
         return new Ticket(
-                obj.getString("movieName"),
-                obj.getString("dateTime"),
+                obj.getString("movie"),
+                obj.getString("date"),
                 obj.getString("seat"),
-                obj.getString("userFullName")
+                obj.getString("user")
         );
     }
     public Bitmap generateQRCode(int size) {
