@@ -47,7 +47,7 @@ KinoticK — это мобильное приложение для Android, по
    git clone https://github.com/abcKristy/KinoticK.git
 
 
-
+```diagram
 graph TD
     %% Клиентская часть (Android)
     A[Client: Android App] -->|HTTP/API Calls| B[Backend: Spring Boot]
@@ -94,3 +94,4 @@ graph TD
         L
         M
     end   
+```
